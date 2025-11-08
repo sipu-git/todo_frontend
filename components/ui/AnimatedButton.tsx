@@ -30,7 +30,6 @@ const sharedTransition = {
 export default function FlipTextButton({
   frontText,
   backText = "Click Me",
-  href = "#",
   className = "",
 }: FlipButtonProps) {
   return (
@@ -40,8 +39,7 @@ export default function FlipTextButton({
       whileHover="hover"
       initial="initial"
     >
-      <motion.a
-        href={href}
+      <motion.div
         className="relative inline-flex items-center justify-center px-8 py-3 text-lg font-semibold text-whiterounded-xl shadow-lg shadow-[#7a26a1] transition-colors rounded-md duration-300  overflow-hidden"
         style={{ transformStyle: "preserve-3d" ,background:"radial-gradient(125% 125% at 50% 10%, #000000 40%, #010133 100%)"}}
       >
@@ -71,7 +69,7 @@ export default function FlipTextButton({
         >
           {backText}
         </motion.span>
-      </motion.a>
+      </motion.div>
     </motion.div>
   );
 }
