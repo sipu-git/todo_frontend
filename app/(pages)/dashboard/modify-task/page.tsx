@@ -12,19 +12,19 @@ import {
 import { toast } from "sonner";
 import Heading1 from "@/components/Headings/Heading1";
 
-interface EditTaskProps {
-    task: {
-        _id: string;
-        title: string;
-        description: string;
-        status: string;
-        dueDate: string;
-        priority: string;
-    };
-    onTaskUpdated: () => void;
+export interface Task {
+  _id: string;
+  title: string;
+  description?: string;
+  status: "pending" | "in-progress" | "completed";
+  dueDate?: string;
+  priority?: "low" | "medium" | "high";
 }
-
-export default function ModifyTask({ task, onTaskUpdated }: EditTaskProps) {
+interface ModifyTaskProps{
+    task:Task,
+    onTaskUpdated:()=>void
+}
+export default function ModifyTask({ task, onTaskUpdated }: ModifyTaskProps) {
     const [formData, setFormData] = useState({
         title: task.title || "",
         description: task.description || "",

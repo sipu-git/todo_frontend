@@ -1,79 +1,66 @@
-'use client'
+"use client";
 
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import axios from "axios";
-import { Variants,motion } from "framer-motion";
-import { useEffect, useState } from "react"
-import ModifyTask from "../modify-task/page";
+import { Variants, motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import ModifyTask, { Task } from "../modify-task/page";
 
-interface ITasks {
-    _id:string;
-    title: string;
-    description: string;
-    status: string;
-    dueDate: string;
-    priority: string;
-}
+export interface ITasks extends Task {}
 
 export default function ViewTasks() {
+  const [viewTasks, setViewTasks] = useState<ITasks[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-    const [viewTasks, setViewTasks] = useState<ITasks[]>([])
-    const [loading, setLoading] = useState(false)
-    const [message, setMessage] = useState("")
-    const [selectedTask,setSelectedTask] = useState<ITasks | null>(null)
-
-    const findTasks = async () => {
+  const findTasks = async () => {
     const token = localStorage.getItem("authToken");
     try {
       setLoading(true);
-      const response = await axios.get("https://todo-backend-5uyj.onrender.com/api/task/viewTasks", {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const displayMessage = response.data.message || "Tasks fetched successfully!";
-      setMessage(displayMessage);
+      const response = await axios.get(
+        "https://todo-backend-5uyj.onrender.com/api/task/viewTasks",
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setMessage(response.data.message || "Tasks fetched successfully!");
       setViewTasks(response.data.tasks || []);
     } catch (error: any) {
       console.error("Error fetching tasks:", error);
-      const errorMsg = error.response?.data?.message || "Failed to load tasks!";
-      setMessage(errorMsg);
+      setMessage(error.response?.data?.message || "Failed to load tasks!");
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(()=>{
-    findTasks()
-  },[])
+  useEffect(() => {
+    findTasks();
+  }, []);
 
-    const deleteTask = async (taskId: string) => {
+  const deleteTask = async (taskId: string) => {
     if (!confirm("Are you sure you want to delete this task?")) return;
     try {
       const token = localStorage.getItem("authToken");
-      await axios.delete(`http://localhost:5000/api/task/deleteTask/${taskId}`, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        `https://todo-backend-5uyj.onrender.com/api/task/deleteTask/${taskId}`,
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setViewTasks((prev) => prev.filter((task) => task._id !== taskId));
       setMessage("Task deleted successfully!");
     } catch (error: any) {
       console.error("Error deleting task:", error);
-      const errorMsg = error.response?.data?.message || "Failed to delete task!";
-      setMessage(errorMsg);
+      setMessage(error.response?.data?.message || "Failed to delete task!");
     }
   };
-   const containerVariants: Variants = {
+
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15 } },
   };
 
   const rowVariants: Variants = {
@@ -92,14 +79,11 @@ export default function ViewTasks() {
     }
   };
 
-    return (
-        <div
-      className="flex flex-col justify-center items-center min-h-screen text-white p-6"
-      style={{
-        background:
-          "radial-gradient(600px 400px at 10% 20%, rgba(99,102,241,0.18), transparent 15%), radial-gradient(500px 350px at 90% 80%, rgba(16,185,129,0.12), transparent 12%), #0b1020",
-      }}
-    >
+  return (
+    <div className="flex flex-col justify-center items-center min-h-screen text-white p-6" style={{
+      background:
+        "radial-gradient(600px 400px at 10% 20%, rgba(99,102,241,0.18), transparent 15%), radial-gradient(500px 350px at 90% 80%, rgba(16,185,129,0.12), transparent 12%), #0b1020",
+    }}>
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -114,12 +98,7 @@ export default function ViewTasks() {
       ) : viewTasks.length === 0 ? (
         <p className="text-gray-400">{message || "No tasks available!"}</p>
       ) : (
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
-          className="w-full max-w-5xl rounded-xl shadow-lg backdrop-blur-md bg-white/5 border border-white/10"
-        >
+        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="w-full max-w-5xl rounded-xl shadow-lg backdrop-blur-md bg-white/5 border border-white/10">
           <table className="min-w-full text-sm text-left">
             <thead>
               <tr className="text-indigo-400 border-b border-white/10 text-base">
@@ -141,22 +120,12 @@ export default function ViewTasks() {
                 >
                   <td className="py-3 px-6 font-semibold">{task.title}</td>
                   <td className="py-3 px-6 text-gray-300">{task.description}</td>
-                  <td
-                    className={`py-3 px-6 ${
-                      task.status === "completed" ? "text-green-400" : "text-yellow-400"
-                    }`}
-                  >
+                  <td className={`py-3 px-6 ${task.status === "completed" ? "text-green-400" : "text-yellow-400"}`}>
                     {task.status}
                   </td>
-                  <td className="py-3 px-6 text-gray-400">
-                    {new Date(task.dueDate).toLocaleDateString()}
-                  </td>
+                  <td className="py-3 px-6 text-gray-400">{new Date(task.dueDate || "").toLocaleDateString()}</td>
                   <td className="py-3 px-6">
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs font-medium border ${getPriorityColor(
-                        task.priority
-                      )}`}
-                    >
+                    <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getPriorityColor(task.priority || "low")}`}>
                       {task.priority}
                     </span>
                   </td>
@@ -168,13 +137,11 @@ export default function ViewTasks() {
                           className="p-2 rounded-full bg-indigo-500/20 hover:bg-indigo-500/40 transition"
                           title="Edit"
                         >
-                            Edit
+                          Edit
                         </button>
                       </DialogTrigger>
                       <DialogContent className="bg-gray-900 border-gray-800">
-                        {selectedTask && (
-                          <ModifyTask task={selectedTask} onTaskUpdated={findTasks} />
-                        )}
+                        {selectedTask && <ModifyTask task={selectedTask} onTaskUpdated={findTasks} />}
                       </DialogContent>
                     </Dialog>
                     <button
@@ -182,7 +149,7 @@ export default function ViewTasks() {
                       className="p-2 cursor-pointer rounded-full bg-red-500/20 hover:bg-red-500/40 transition"
                       title="Delete"
                     >
-                        Delete
+                      Delete
                     </button>
                   </td>
                 </motion.tr>
@@ -194,4 +161,3 @@ export default function ViewTasks() {
     </div>
   );
 }
-    
