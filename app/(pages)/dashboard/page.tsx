@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import AnimatedSidebar from "@/components/Sidebar/page";
 import { jwtDecode } from "jwt-decode";
+import axios from "axios";
 
 interface TokenDecoded {
   _id: string;
@@ -17,6 +18,8 @@ interface TokenDecoded {
 
 export default function Dashboard() {
   const [viewUser, setViewUser] = useState<TokenDecoded | null>(null);
+  const [totalTasks,setTotalTasks] = useState(0)
+  const [loading,setLoading] = useState(false)
 
   useEffect(() => {
     try {
@@ -47,9 +50,32 @@ export default function Dashboard() {
     }
   }, []);
 
+  useEffect(()=>{
+    const findTasksCount = async ()=>{
+      const token = localStorage.getItem("authToken")
+      console.log(token);
+      try {
+        setLoading(true);
+        const response = await axios.get("http://localhost:5000/api/task/viewTasks",{
+          withCredentials: true,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        const totalData = response.data.tasks;
+        setTotalTasks(totalData.length);
+      } catch (error) {
+               console.error("Error fetching tasks count:", error);
+      }
+      finally{
+        setLoading(false)
+      }
+    }
+    findTasksCount()
+  },[])
   const cards = [
     { title: "Total Users", value: "1,204", desc: "Active this week" },
-    { title: "Tasks Completed", value: "482", desc: "Last 7 days" },
+    { title: "Tasks Completed", value: loading?"...":totalTasks, desc: "Last 7 days" },
     { title: "Revenue", value: "$12,430", desc: "This month" },
     { title: "New Messages", value: "34", desc: "Unread notifications" },
   ];

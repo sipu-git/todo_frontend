@@ -1,7 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Twitter, Instagram, CheckCircle2 } from "lucide-react";
+import { Github, Linkedin, Twitter, Instagram, CheckCircle2, GitBranch } from "lucide-react";
 import Link from "next/link";
+import FlipedText from "../ui/FlipedText";
 
 export default function Footer() {
   const linksItems= [
@@ -67,10 +68,9 @@ export default function Footer() {
             <li key={index}>
               <Link
                 href={items.reference}
-                className="relative group hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+                className="relative"
               >
-                {items.linkData}
-                <span className="absolute left-0 bottom-[-4px] w-0 h-[2px] bg-indigo-500 group-hover:w-full transition-all duration-300"></span>
+                <FlipedText frontText={items.linkData} backText={items.linkData}/>
               </Link>
             </li>
           ))}
@@ -101,28 +101,28 @@ export default function Footer() {
             className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
             aria-label="GitHub"
           >
-            <Github className="w-5 h-5" />
+            <FlipedText frontIcon={<Github/>} backIcon={<Github/>}/>
           </Link>
           <Link
             href="#"
             className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
             aria-label="LinkedIn"
           >
-            <Linkedin className="w-5 h-5" />
+            <FlipedText frontIcon={<Linkedin/>} backIcon={<Linkedin/>}/>
           </Link>
           <Link
             href="#"
             className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
             aria-label="Twitter"
           >
-            <Twitter className="w-5 h-5" />
+            <FlipedText frontIcon={<Twitter/>} backIcon={<Twitter/>}/>
           </Link>
           <Link
             href="#"
             className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
             aria-label="Instagram"
           >
-            <Instagram className="w-5 h-5" />
+            <FlipedText frontIcon={<Instagram/>} backIcon={<Instagram/>}/>
           </Link>
         </motion.div>
       </div>

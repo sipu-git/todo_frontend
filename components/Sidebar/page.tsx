@@ -22,11 +22,10 @@ const AnimatedSidebar: React.FC = () => {
   };
 
   const items: SidebarItem[] = [
-    { icon: <Home />, label: "Home", reference: "/" },
+    { icon: <Home />, label: "Home", reference: "/dashboard" },
     { icon: <ListTodo />, label: "Add Tasks", reference: "/dashboard/add-task" },
     { icon: <ListTodo />, label: "View Tasks", reference: "/dashboard/view-tasks" },
     { icon: <User />, label: "Profile", reference: "/profile" },
-    { icon: <Settings />, label: "Settings", reference: "/settings" },
     { icon: <LogOut />, label: "Logout", reference: "/user-login" },
   ];
 
@@ -53,7 +52,7 @@ const AnimatedSidebar: React.FC = () => {
       {/* 🔹 Desktop Sidebar */}
       <div className="hidden md:flex md:flex-col md:w-60 h-screen bg-gradient-to-b from-gray-900/80 to-gray-950/90 border-r border-gray-800/40 backdrop-blur-xl shadow-[inset_0_0_20px_rgba(0,0,0,0.3)]">
         <div className="p-5 border-b border-gray-800 text-indigo-400 font-semibold text-lg tracking-wide">
-          TaskMaster
+          <Link href='/'>TaskMaster</Link>
         </div>
 
         <nav className="flex-1 p-4 space-y-2 relative">
@@ -129,7 +128,7 @@ const AnimatedSidebar: React.FC = () => {
                     key={index}
                     href={item.reference || "#"}
                     onClick={() => setIsOpen(false)}
-                    className={`flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-all ${
+                    className={`flex items-center gap-10 p-3 rounded-lg cursor-pointer transition-all ${
                       pathname === item.reference
                         ? "bg-gradient-to-r from-indigo-600/30 to-cyan-500/20 text-indigo-300"
                         : "hover:bg-gray-800/70 text-gray-300 hover:text-indigo-300"

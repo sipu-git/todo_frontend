@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/Providers/LenisProvider";
 import { Toaster } from "@/components/ui/sonner";
+import CustomCursor from "@/components/CursorMover/page";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,9 @@ export default function RootLayout({children}:{children: React.ReactNode}) {
         {children}
         <Toaster richColors position="top-center"/>
         </LenisProvider>
+                  <CustomCursor size={25} color="#28e8e8" ringColor="rgba(255,255,255,0.45) spring={{ stiffness: 150, damping: 13, mass: 0.32 }}
+          hoverScale={1.35}" />
+
       </body>
     </html>
   );

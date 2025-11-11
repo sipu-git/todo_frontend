@@ -27,7 +27,7 @@ export default function HeroSection() {
         <p className="text-lg max-w-xl mx-auto">
           Experience the interactive motion magic in the background.
         </p>
-       <Link href="/user-register" className=''><RainbowButton className='mt-4' variant="outline">Explore Tasks</RainbowButton></Link>
+       <Link href="/user-login" className=''><RainbowButton className='mt-4' variant="outline">Explore Tasks</RainbowButton></Link>
       </div>
     </section>
   );
