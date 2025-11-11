@@ -26,11 +26,11 @@ interface EditTaskProps {
 
 export default function ModifyTask({ task, onTaskUpdated }: EditTaskProps) {
     const [formData, setFormData] = useState({
-        title: task.title,
-        description: task.description,
-        status: task.status,
-        dueDate: task.dueDate,
-        priority: task.priority,
+        title: task.title || "",
+        description: task.description || "",
+        status: task.status || "pending",
+        dueDate: task.dueDate || "",
+        priority: task.priority || "low",
     });
 
     const [loading, setLoading] = useState(false);
@@ -72,7 +72,7 @@ export default function ModifyTask({ task, onTaskUpdated }: EditTaskProps) {
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <DialogHeader>
-                <DialogTitle><Heading1 text="Edit Task"/></DialogTitle>
+                <DialogTitle><Heading1 text="Edit Task" /></DialogTitle>
                 <DialogDescription>
                     Modify the task details and save your changes.
                 </DialogDescription>
@@ -109,7 +109,7 @@ export default function ModifyTask({ task, onTaskUpdated }: EditTaskProps) {
                 <input
                     type="date"
                     name="dueDate"
-                    value={formData.dueDate?.split("T")[0] || ""}
+                    value={formData.dueDate ? formData.dueDate.split("T")[0] : ""}
                     onChange={handleChange}
                     className="w-full px-3 py-2 rounded bg-gray-800 border border-gray-700 text-white"
                 />
