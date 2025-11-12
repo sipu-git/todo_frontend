@@ -7,14 +7,14 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className="relative flex flex-col items-center justify-center px-6 py-20 overflow-hidden bg-gradient-to-b from-white to-blue-50"
+      className="relative w-full flex flex-col items-center   py-20 overflow-hidden bg-gradient-to-b from-white to-blue-50"
     >
       {/* Background Glow */}
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 0.3, scale: 1 }}
         transition={{ duration: 2, ease: 'easeOut' }}
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[60%] h-[60%] bg-blue-300/30 blur-[120px] rounded-full"
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[60%] bg-blue-300/30 blur-[120px] rounded-full"
       />
 
       {/* Section Title */}

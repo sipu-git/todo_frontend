@@ -39,7 +39,7 @@ const faqData = [
 // --- The Page Component ---
 export default function FaqPage() {
   return (
-    <div id="faqs" className='flex w-full h-auto py-14 flex-col bg-gradient-to-b from-white to-blue-50 items-center justify-center font-sans  duration-500'>
+    <div id="faqs" className='flex w-full  h-auto py-14 flex-col bg-gradient-to-b from-white to-blue-50 items-center justify-center font-sans  duration-500'>
         <div className="">
           <Heading1 text="Frequently Asked Questions"/>
         </div>
@@ -48,6 +48,7 @@ export default function FaqPage() {
         </p>
         
         {/* Here we use the reusable component with our data */}
+        
         <Accordion items={faqData} />
 
     </div>

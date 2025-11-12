@@ -5,8 +5,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { setAuthToken } from "@/lib/authToken";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import { ShineBorder } from "@/components/ui/shine-border";
 
 interface LoginData {
   email: string;
@@ -30,31 +30,35 @@ export default function UserLogin() {
     setLoading(true);
 
     try {
-      const res = await axios.post("https://todo-backend-5uyj.onrender.com/api/user/loginUser", formData, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "https://todo-backend-5uyj.onrender.com/api/user/loginUser",
+        formData,
+        { withCredentials: true }
+      );
 
-      const { token, user,message } = res.data;
+      const { token, user, message } = res.data;
 
       if (token && user) {
         localStorage.setItem("authToken", token);
         localStorage.setItem("verifyUser", JSON.stringify(user));
-
         setAuthToken(token);
 
-        toast.success(message || "Login successful!", { position: "top-center" });
-        router.push("/dashboard"); 
+        toast.success(message || "Login successful!", {
+          position: "top-center",
+        });
+
+        router.push("/dashboard");
       } else {
         toast.error("Invalid response from server", { position: "top-center" });
       }
     } catch (error: any) {
-          console.error("Registration error:", error);
-          toast.error(error.response?.data?.message || "Something went wrong", {
-            position: "top-center",
-          });
-        } finally {
-          setLoading(false);
-        }
+      console.error("Login error:", error);
+      toast.error(error.response?.data?.message || "Something went wrong", {
+        position: "top-center",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputClass =
@@ -80,77 +84,88 @@ export default function UserLogin() {
         style={{ background: "linear-gradient(135deg,#06b6d4,#f472b6)" }}
       />
 
-      <motion.div
-        initial={{ opacity: 0, y: 20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="relative z-10 w-full max-w-md mx-auto px-8 py-6 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl"
-      >
-        <h1 className="text-3xl font-bold text-center text-white mb-6">
-          Welcome Back
-        </h1>
+      <div className="relative z-10 w-full max-w-md mx-auto rounded-2xl">
+        <ShineBorder
+          borderWidth={2}
+          duration={10}
+          shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]}
+          className="rounded-2xl"
+        />
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-white">
-          <input
-            name="email"
-            type="email"
-            placeholder="Email"
-            className={inputClass}
-            value={formData.email}
-            onChange={handleChange}
-          />
+        {/* Actual Login Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="relative px-8 py-6 bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl"
+        >
+          <h1 className="text-3xl font-bold text-center text-white mb-6">
+            Welcome Back
+          </h1>
 
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            className={inputClass}
-            value={formData.password}
-            onChange={handleChange}
-          />
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-white">
+            <input
+              name="email"
+              type="email"
+              placeholder="Email"
+              className={inputClass}
+              value={formData.email}
+              onChange={handleChange}
+            />
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-teal-400 hover:scale-[1.02] active:scale-95 transition-transform font-semibold shadow-lg"
-          >
-            {loading && (
-              <svg
-                className="animate-spin h-5 w-5 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                />
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8v8z"
-                />
-              </svg>
-            )}
-            <span>{loading ? "Logging in..." : "Login"}</span>
-          </button>
+            <input
+              name="password"
+              type="password"
+              placeholder="Password"
+              className={inputClass}
+              value={formData.password}
+              onChange={handleChange}
+            />
 
-          <div className="text-center pt-2">
             <button
-              type="button"
-              onClick={() => router.push("/user-register")}
-              className="text-sm text-white/70 underline"
+              type="submit"
+              disabled={loading}
+              className="flex items-center justify-center gap-2 w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-teal-400 hover:scale-[1.02] active:scale-95 transition-transform font-semibold shadow-lg"
             >
-              Don’t have an account? Register
+              {loading && (
+                <svg
+                  className="animate-spin h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v8z"
+                  />
+                </svg>
+              )}
+              <span>{loading ? "Logging in..." : "Login"}</span>
             </button>
-          </div>
-        </form>
-      </motion.div>
 
+            <div className="text-center pt-2">
+              <button
+                type="button"
+                onClick={() => router.push("/user-register")}
+                className="text-sm cursor-pointer text-white/70 underline"
+              >
+                Don’t have an account? Register
+              </button>
+            </div>
+          </form>
+        </motion.div>
+      </div>
+
+      {/* ===== Blob Animation Styles ===== */}
       <style jsx>{`
         @keyframes blob {
           0% {

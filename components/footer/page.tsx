@@ -37,7 +37,7 @@ export default function Footer() {
         className="absolute inset-0 bg-gradient-to-tr from-indigo-500/10 to-blue-400/10 blur-3xl"
       />
 
-      <div className="relative max-w-7xl mx-auto px-6 py-14 flex flex-col md:flex-row items-center justify-between gap-10">
+      <div className="relative max-w-7xl mx-auto  py-14 flex flex-col md:flex-row items-center justify-between gap-10">
         
         {/* Brand Section */}
         <motion.div

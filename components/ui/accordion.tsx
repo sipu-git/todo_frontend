@@ -29,7 +29,7 @@ const AccordionItem = memo(function AccordionItem({
 
   const containerClasses = useMemo(
     () =>
-      `rounded-md w-full max-w-6xl transition-all duration-300 relative overflow-hidden ${
+      `rounded-md w-full max-w-7xl transition-all duration-300 relative overflow-hidden ${
         !isLast ? "mb-8" : ""
       }`,
     [isLast]
