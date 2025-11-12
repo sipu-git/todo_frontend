@@ -1,18 +1,24 @@
 "use client";
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { motion, Variants } from "framer-motion";
 import axios from "axios";
-import { Variants, motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import ModifyTask, { Task } from "../modify-task/page";
 
-export interface ITasks extends Task {}
+interface ITask {
+  _id: string;
+  title: string;
+  description?: string;
+  status: "pending" | "in-progress" | "completed";
+  dueDate?: string;
+  priority?: "low" | "medium" | "high";
+}
 
 export default function ViewTasks() {
-  const [viewTasks, setViewTasks] = useState<ITasks[]>([]);
+  const [viewTasks, setViewTasks] = useState<ITask[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const router = useRouter();
 
   const findTasks = async () => {
     const token = localStorage.getItem("authToken");
@@ -25,6 +31,7 @@ export default function ViewTasks() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
+
       setMessage(response.data.message || "Tasks fetched successfully!");
       setViewTasks(response.data.tasks || []);
     } catch (error: any) {
@@ -69,7 +76,7 @@ export default function ViewTasks() {
   };
 
   const getPriorityColor = (priority: string) => {
-    switch (priority.toLowerCase()) {
+    switch (priority?.toLowerCase()) {
       case "high":
         return "text-red-400 border-red-400";
       case "medium":
@@ -80,10 +87,13 @@ export default function ViewTasks() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen text-white p-6" style={{
-      background:
-        "radial-gradient(600px 400px at 10% 20%, rgba(99,102,241,0.18), transparent 15%), radial-gradient(500px 350px at 90% 80%, rgba(16,185,129,0.12), transparent 12%), #0b1020",
-    }}>
+    <div
+      className="flex flex-col justify-center items-center min-h-screen text-white p-6"
+      style={{
+        background:
+          "radial-gradient(600px 400px at 10% 20%, rgba(99,102,241,0.18), transparent 15%), radial-gradient(500px 350px at 90% 80%, rgba(16,185,129,0.12), transparent 12%), #0b1020",
+      }}
+    >
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -98,7 +108,12 @@ export default function ViewTasks() {
       ) : viewTasks.length === 0 ? (
         <p className="text-gray-400">{message || "No tasks available!"}</p>
       ) : (
-        <motion.div variants={containerVariants} initial="hidden" animate="visible" className="w-full max-w-5xl rounded-xl shadow-lg backdrop-blur-md bg-white/5 border border-white/10">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className="w-full max-w-5xl rounded-xl shadow-lg backdrop-blur-md bg-white/5 border border-white/10"
+        >
           <table className="min-w-full text-sm text-left">
             <thead>
               <tr className="text-indigo-400 border-b border-white/10 text-base">
@@ -115,35 +130,50 @@ export default function ViewTasks() {
                 <motion.tr
                   key={task._id || index}
                   variants={rowVariants}
-                  whileHover={{ scale: 1.0, backgroundColor: "rgba(255,255,255,0.05)" }}
+                  whileHover={{
+                    scale: 1.0,
+                    backgroundColor: "rgba(255,255,255,0.05)",
+                  }}
                   className="border-b border-white/5 transition-all duration-300"
                 >
                   <td className="py-3 px-6 font-semibold">{task.title}</td>
-                  <td className="py-3 px-6 text-gray-300">{task.description}</td>
-                  <td className={`py-3 px-6 ${task.status === "completed" ? "text-green-400" : "text-yellow-400"}`}>
+                  <td className="py-3 px-6 text-gray-300">
+                    {task.description || "—"}
+                  </td>
+                  <td
+                    className={`py-3 px-6 ${
+                      task.status === "completed"
+                        ? "text-green-400"
+                        : "text-yellow-400"
+                    }`}
+                  >
                     {task.status}
                   </td>
-                  <td className="py-3 px-6 text-gray-400">{new Date(task.dueDate || "").toLocaleDateString()}</td>
+                  <td className="py-3 px-6 text-gray-400">
+                    {task.dueDate
+                      ? new Date(task.dueDate).toLocaleDateString()
+                      : "—"}
+                  </td>
                   <td className="py-3 px-6">
-                    <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getPriorityColor(task.priority || "low")}`}>
-                      {task.priority}
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-medium border ${getPriorityColor(
+                        task.priority || "low"
+                      )}`}
+                    >
+                      {task.priority || "low"}
                     </span>
                   </td>
                   <td className="flex justify-center items-center gap-2 py-3">
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <button
-                          onClick={() => setSelectedTask(task)}
-                          className="p-2 rounded-full bg-indigo-500/20 hover:bg-indigo-500/40 transition"
-                          title="Edit"
-                        >
-                          Edit
-                        </button>
-                      </DialogTrigger>
-                      <DialogContent className="bg-gray-900 border-gray-800">
-                        {selectedTask && <ModifyTask task={selectedTask} onTaskUpdated={findTasks} />}
-                      </DialogContent>
-                    </Dialog>
+                    <button
+                      onClick={() =>
+                        router.push(`/dashboard/modify-task/${task._id}`)
+                      }
+                      className="p-2 rounded-full bg-indigo-500/20 hover:bg-indigo-500/40 transition"
+                      title="Edit"
+                    >
+                      Edit
+                    </button>
+
                     <button
                       onClick={() => deleteTask(task._id)}
                       className="p-2 cursor-pointer rounded-full bg-red-500/20 hover:bg-red-500/40 transition"
