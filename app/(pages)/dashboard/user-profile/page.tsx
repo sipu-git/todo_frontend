@@ -38,7 +38,7 @@ export default function UserProfile() {
             const token = localStorage.getItem("authToken");
 
             try {
-                const response = await axios.get("http://localhost:5000/api/user/viewProfile", {
+                const response = await axios.get("https://todo-backend-5uyj.onrender.com/api/user/viewProfile", {
                     headers: { Authorization: `Bearer ${token}` },
                     withCredentials: true,
                 });
@@ -85,7 +85,7 @@ export default function UserProfile() {
             if (profileImage) formDataToSend.append("profile", profileImage);
 
             const response = await axios.put(
-                "http://localhost:5000/api/user/viewProfileAndUpdate",
+                "https://todo-backend-5uyj.onrender.com/api/user/viewProfileAndUpdate",
                 formDataToSend,
                 {
                     headers: {
