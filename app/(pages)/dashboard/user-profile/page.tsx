@@ -2,7 +2,6 @@
 
 import axios from "axios";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import { Pencil, Save, X, Upload } from "lucide-react";
 import { toast } from "sonner";
@@ -30,17 +29,20 @@ export default function UserProfile() {
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [editField, setEditField] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const router = useRouter();
+    // const router = useRouter();
 
     useEffect(() => {
         const fetchProfile = async () => {
-            setLoading(true);
             const token = localStorage.getItem("authToken");
-
+            console.log("token",token)
             try {
-                const response = await axios.get("https://todo-backend-5uyj.onrender.com/api/user/viewProfile", {
-                    headers: { Authorization: `Bearer ${token}` },
+                setLoading(true);
+                const response = await axios.get("http://localhost/api/user/viewProfile", {
                     withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data"
+                    },
                 });
 
                 setProfileData(response.data.user);
