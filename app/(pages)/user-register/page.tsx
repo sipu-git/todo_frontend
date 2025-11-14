@@ -60,15 +60,14 @@ export default function UserRegister() {
       if (file) userData.append("profile", file);
 
       const result = await axios.post(
-        "https://todo-backend-5uyj.onrender.com/api/user/addUser",
+        "https://todo-backend-1hic.onrender.com/api/user/addUser",
         userData,
         {
           headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true,
         }
       );
-      const { message, token, user } = result.data;
-      localStorage.setItem("verifyUser", JSON.stringify(user));
+      const { message, token } = result.data;
       setAuthToken(token)
       toast.success(message || "User registered successfully", { position: "top-center" });
 

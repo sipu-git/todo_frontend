@@ -36,7 +36,7 @@ export default function AddTaskPage() {
     const token = localStorage.getItem("authToken")
     console.log(localStorage.getItem("authToken"));
     try {
-      const response = await axios.post("https://todo-backend-5uyj.onrender.com/api/task/addTask", createTask, {
+      const response = await axios.post("https://todo-backend-1hic.onrender.com/api/task/addTask", createTask, {
         withCredentials: true,
         headers: {
           Authorization: `Bearer ${token}`,

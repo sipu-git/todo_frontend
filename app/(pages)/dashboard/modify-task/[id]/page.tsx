@@ -43,7 +43,7 @@ export default function ModifyTask() {
       try {
         const token = localStorage.getItem("authToken");
         const response = await axios.get(
-          `https://todo-backend-5uyj.onrender.com/api/task/viewTask/${taskId}`,
+          `https://todo-backend-1hic.onrender.com/api/task/viewTask/${taskId}`,
           {
             withCredentials: true,
             headers: { Authorization: `Bearer ${token}` },
@@ -80,7 +80,7 @@ export default function ModifyTask() {
 
     try {
       const response = await axios.put(
-        `https://todo-backend-5uyj.onrender.com/api/task/editTask/${taskId}`,
+        `https://todo-backend-1hic.onrender.com/api/task/editTask/${taskId}`,
         formData,
         {
           headers: {

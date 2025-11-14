@@ -22,7 +22,6 @@ export default function Dashboard() {
   const [totalTasks, setTotalTasks] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Verify user token
   useEffect(() => {
     try {
       const storedUser = localStorage.getItem("verifyUser");
@@ -60,7 +59,7 @@ export default function Dashboard() {
       try {
         setLoading(true);
         const response = await axios.get(
-          "https://todo-backend-5uyj.onrender.com/api/task/viewTasks",
+          "https://todo-backend-1hic.onrender.com/api/task/viewTasks",
           {
             withCredentials: true,
             headers: {

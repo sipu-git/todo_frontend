@@ -34,10 +34,10 @@ export default function UserProfile() {
     useEffect(() => {
         const fetchProfile = async () => {
             const token = localStorage.getItem("authToken");
-            console.log("token",token)
+            console.log("token", token)
             try {
                 setLoading(true);
-                const response = await axios.get("http://localhost/api/user/viewProfile", {
+                const response = await axios.get("https://todo-backend-1hic.onrender.com/api/user/viewProfile", {
                     withCredentials: true,
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ export default function UserProfile() {
             if (profileImage) formDataToSend.append("profile", profileImage);
 
             const response = await axios.put(
-                "https://todo-backend-5uyj.onrender.com/api/user/viewProfileAndUpdate",
+                "https://todo-backend-1hic.onrender.com/api/user/viewProfileAndUpdate",
                 formDataToSend,
                 {
                     headers: {
