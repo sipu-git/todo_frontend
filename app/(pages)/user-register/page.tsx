@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
-// import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { setAuthToken } from "@/lib/authToken";
 import Image from "next/image";
