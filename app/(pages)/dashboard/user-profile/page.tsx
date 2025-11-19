@@ -37,7 +37,7 @@ export default function UserProfile() {
             console.log("token", token)
             try {
                 setLoading(true);
-                const response = await axios.get("https://todo-backend-1hic.onrender.com/api/user/viewProfile", {
+                const response = await axios.get("https://todo-backend-tujg.onrender.com/api/user/viewProfile", {
                     withCredentials: true,
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -87,7 +87,7 @@ export default function UserProfile() {
             if (profileImage) formDataToSend.append("profile", profileImage);
 
             const response = await axios.put(
-                "https://todo-backend-1hic.onrender.com/api/user/viewProfileAndUpdate",
+                "https://todo-backend-tujg.onrender.com/api/user/viewProfileAndUpdate",
                 formDataToSend,
                 {
                     headers: {

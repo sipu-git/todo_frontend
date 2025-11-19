@@ -59,7 +59,7 @@ export default function Dashboard() {
       try {
         setLoading(true);
         const response = await axios.get(
-          "https://todo-backend-1hic.onrender.com/api/task/viewTasks",
+          "https://todo-backend-tujg.onrender.com/api/task/viewTasks",
           {
             withCredentials: true,
             headers: {

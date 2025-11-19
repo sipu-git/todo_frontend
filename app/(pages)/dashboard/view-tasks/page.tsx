@@ -25,7 +25,7 @@ export default function ViewTasks() {
     try {
       setLoading(true);
       const response = await axios.get(
-        "https://todo-backend-1hic.onrender.com/api/task/viewTasks",
+        "https://todo-backend-tujg.onrender.com/api/task/viewTasks",
         {
           withCredentials: true,
           headers: { Authorization: `Bearer ${token}` },
@@ -51,7 +51,7 @@ export default function ViewTasks() {
     try {
       const token = localStorage.getItem("authToken");
       await axios.delete(
-        `https://todo-backend-5uyj.onrender.com/api/task/deleteTask/${taskId}`,
+        `https://todo-backend-tujg.onrender.com/api/task/deleteTask/${taskId}`,
         {
           withCredentials: true,
           headers: { Authorization: `Bearer ${token}` },
