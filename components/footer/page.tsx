@@ -62,7 +62,7 @@ export default function Footer() {
           initial={{ y: 20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-wrap justify-center md:justify-end gap-6 text-gray-700 dark:text-slate-300 font-medium"
+          className="flex flex-wrap justify-center md:justify-end gap-6 text-[#3f3f3f] dark:text-slate-300 font-medium"
         >
           {linksItems.map((items,index) => (
             <li key={index}>
